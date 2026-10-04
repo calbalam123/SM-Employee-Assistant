@@ -1,13 +1,17 @@
 import { SlashCommandBuilder } from "discord.js";
+import { getQwenConfig } from "../lib/ai.js";
 
 export const data = new SlashCommandBuilder()
   .setName("status")
-  .setDescription("봇 상태를 확인합니다.");
+  .setDescription("봇 상태와 Qwen 설정을 확인합니다.");
 
 export async function execute(interaction) {
-  const model = process.env.AI_MODEL || "qwen/qwen-2.5-72b-instruct";
+  const { model } = getQwenConfig();
+
   await interaction.reply(
-    "🟢 **SM 직원 어시스트 정상 작동**\n• WebSocket: " +
-    interaction.client.ws.ping + "ms\n• AI 모델: " + model
+    "🟢 **SM 직원 어시스트 정상 작동**\n" +
+    "• WebSocket: " + interaction.client.ws.ping + "ms\n" +
+    "• AI: Qwen\n" +
+    "• Qwen 모델: " + model
   );
 }
